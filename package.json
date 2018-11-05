@@ -1,0 +1,41 @@
+{
+  "name": "maana-code-challenge",
+  "version": "1.0.0",
+  "description": "graphQL and react based app using express for building a POC integration mapping tool",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "rm -rf ./dist && cp -r ./src/server ./dist",
+    "build:client": "webpack",
+    "start": "node ./dist/server.js"
+  },
+  "author": "dillon osman",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-graphql": "^0.6.12",
+    "graphql": "^14.0.2",
+    "mongoose": "^5.3.6",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "webpack-cli": "^3.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^7.1.5",
+    "chai": "^4.2.0",
+    "enzyme": "^3.6.0",
+    "lodash": "^4.17.11",
+    "mocha": "^5.2.0",
+    "react-router-dom": "^4.3.1",
+    "react-test-renderer": "^16.5.2",
+    "sinon": "^6.3.5",
+    "webpack": "^4.20.2"
+  }
+}
