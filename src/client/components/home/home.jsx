@@ -14,7 +14,7 @@ export default class Home extends React.Component{
       return (
         <div>
           <h1 className={'home_header'}>Integrations Builder</h1>
-          <hr className={'home_hr'}/>
+          <hr className={'header_hr'}/>
 
           <div className={'subsection'}>
             <div className={'subsection_header_area'}>
@@ -35,7 +35,7 @@ export default class Home extends React.Component{
                 <h2 className={'subsection_title'}>Integrations</h2>
               </div>
               <div className={'subsection_button_area'}>
-                <button className={'subsection_button'}>+ Add</button>
+                <Link to={`/addIntegration`} className={'subsection_button'}>+ Add</Link>
               </div>
             </div>
 
