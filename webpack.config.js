@@ -10,11 +10,15 @@ let webpackConfig = {
   },
   mode:"development",
   resolve:{
+    alias: {
+      'helpers': `${__dirname}/src/client/helpers/`,
+      'queries': `${__dirname}/src/client/queries/`
+    },
     modules:[
       "node_modules",
       path.join(__dirname, 'client')
     ],
-    extensions: [".webpack.js", ".web.js", ".js", '.jsx']
+    extensions: [".webpack.js", ".web.js", ".mjs", ".js", '.jsx']
   },
   module:{
     rules: [

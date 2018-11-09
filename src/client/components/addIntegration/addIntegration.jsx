@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { graphql, compose } from 'react-apollo';
 import Integration from "./integration/integration";
+import GetEndpoint from 'queries/endpoint.query';
 
-export default class AddIntegration extends React.Component{
+class AddIntegration extends React.Component{
   constructor (props){
     super(props);
+
   }//end constructor
 
   render (){
@@ -15,13 +18,31 @@ export default class AddIntegration extends React.Component{
         </div>
         <div className={'integration_content_area'}>
           <div className={'integration_window side_a'}>
-            <Integration integrationSide={'a'} />
+            <Integration
+              intSide={'a'}
+              handleMappingSelection={this.handleMappingSelection}
+              handleEndpointSelection={this.handleEndpointSelection}
+            />
           </div>
           <div className={'integration_window side_b'}>
-            <Integration integrationSide={'b'} />
+            <Integration
+              intSide={'b'}
+              handleMappingSelection={this.handleMappingSelection}
+              handleEndpointSelection={this.handleEndpointSelection}
+            />
           </div>
         </div>
       </div>
     )
   }//end render
+  
+  handleMappingSelection (pathname, side){
+      
+  }//end handleMappingSelection
+
+  handleEndpointSelection (id, side){
+
+  }//end handleEndpointSelection
 }
+
+export default graphql(GetEndpoint)(AddIntegration);

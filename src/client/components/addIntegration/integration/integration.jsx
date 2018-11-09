@@ -1,9 +1,13 @@
 import * as React from 'react';
+import { graphql, compose } from 'react-apollo';
+
 import EndpointSelect from "./endpointSelect";
 import QueryParamsSelect from "./queryParamsSelect";
 import HeaderSelect from "./headerSelect";
-import RequestBody from "./requestBody";
+import JsonVisualizer from "./jsonVisualizer";
 import ResponseBody from "./responseBody";
+
+import stub from 'helpers/stub';
 
 export default class Integration extends React.Component{
   constructor (props){
@@ -14,14 +18,16 @@ export default class Integration extends React.Component{
   }//end constructor
 
   render (){
+    let intSide = this.props.intSide;
     let endpoint = { //todo replace with real data
+      id: 'someID',
       hostname: 'stub',
       api: {
         pathParts: [],
         queryParams: [],
         headers: [],
-        requestBodyObj: '',
-        responseBodyObj: '',
+        requestBodyObj: JSON.stringify(stub),
+        responseBodyObj: JSON.stringify(stub),
       }
 
     };
@@ -31,8 +37,19 @@ export default class Integration extends React.Component{
         <EndpointSelect endpoint={endpoint}/>
         <QueryParamsSelect endpoint={endpoint}/> {/*todo: display only if selectedEndpoint is a GET request*/}
         <HeaderSelect endpoint={endpoint}/>
-        <RequestBody endpoint={endpoint}/>
-        <ResponseBody endpoint={endpoint}/>
+        <JsonVisualizer
+          id={endpoint.id}
+          contentSource={"requestBody"}
+          body={JSON.parse(endpoint.api.requestBodyObj)}
+          intSide={intSide}
+        />
+        <JsonVisualizer
+          id={endpoint.id}
+          contentSource={"responseBody"}
+          body={JSON.parse(endpoint.api.responseBodyObj)}
+          intSide={intSide}
+          handleMappingSelection={this.props.handleMappingSelection}
+        />
       </div>
     )
   }//end render

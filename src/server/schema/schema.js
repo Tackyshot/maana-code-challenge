@@ -12,6 +12,7 @@ const mutations = {};
 
 //import types
 const EndpointType = require('./types/endpoint.type');
+const IntegrationType = require('./types/integration.type');
 
 //todo remove this, replace with mongoDB
 const mEndpoints = [{
@@ -52,6 +53,16 @@ const mEndpoints = [{
       "someResponseKey": "Some Resource String"
     })
   }
+}];
+
+const mIntegrations = [{
+  id: 1,
+  endpointAId: 1,
+  endpointBId: 2,
+  mappings: [{
+    pathA: 'responseBody.data.array.name.firstname',
+    pathB: 'requestBody.data.array.name.firstname',
+  }]
 }];
 
 
@@ -104,6 +115,26 @@ class SchemaFactory {
 
             return endpoint
           }
+        },
+        getIntegrations:{
+          type: new GraphQLList(IntegrationType),
+          resolve: () => {
+              return mIntegrations;
+          }
+        },
+        getIntegration:{
+          type: IntegrationType,
+          args: {id: {type: GraphQLID}},
+          resolve: (parent, args) => {
+              let integration = mIntegrations.find((a) => {
+                  return a.id == args.id;
+              });
+              
+              console.log('FIND INTEGRATION BY ID:', args.id);
+              console.log(inegration);
+
+              return integration;
+          }
         }
       }
     });
@@ -116,24 +147,22 @@ class SchemaFactory {
 
     return new GraphQLObjectType({
       name: 'Mutations',
-      fields: fields
+      fields: {
+        addEndpoint: {
+          type: EndpointType,
+          resolve: (parent, args) => {
+
+          }
+        },
+        addIntegration: {
+          type: IntegrationType,
+          resolve: (parent, args) => {
+              
+          }
+        }
+      }
     });
   }//end buildMutations
   
-  // buildFields (dirPath, files){
-  //   const fields = {};
-  //
-  //   console.log('BUILD FIELDS FILES:', dirPath, files);
-  //
-  //   for (let i = 0; i < files.length; i++){
-  //     let {fieldName, fieldContent} = require(`${dirPath}/${files[i]}`);
-  //
-  //     if(fieldName) console.log('ERROR CHECK', typeof fieldContent);
-  //
-  //     fields[fieldName.toLowerCase()] = fieldContent;
-  //   }
-  //
-  //   return fields;
-  // }//end buildFields
 }
 module.exports = SchemaFactory;
