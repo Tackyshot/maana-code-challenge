@@ -8,6 +8,7 @@ import IntegrationStyles from 'styles/addIntegration.css';
 import Integration from "./integration/integration";
 import GetEndpoint from 'queries/endpoint.query';
 import GetEndpoints from 'queries/endpoints.query';
+import GetIntegrations from 'queries/integrations.query';
 import NewIntegration from 'queries/addIntegration.query';
 
 
@@ -140,7 +141,8 @@ class AddIntegration extends React.Component{
     this.props.AddIntegrationMutation({
       variables:{
         integration: JSON.stringify(this.state.mIntegration)
-      }
+      },
+      refetchQueries:[{query: GetIntegrations}]
     });
 
     this.props.history.push('/');
