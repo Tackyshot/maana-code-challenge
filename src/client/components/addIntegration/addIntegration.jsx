@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { graphql, compose } from 'react-apollo';
+import {Redirect} from 'react-router-dom';
+import { graphql, compose, Mutation } from 'react-apollo';
 import {css} from 'aphrodite';
 import GlobalStyles from 'styles/global.css';
 import IntegrationStyles from 'styles/addIntegration.css';
@@ -7,6 +8,7 @@ import IntegrationStyles from 'styles/addIntegration.css';
 import Integration from "./integration/integration";
 import GetEndpoint from 'queries/endpoint.query';
 import GetEndpoints from 'queries/endpoints.query';
+import NewIntegration from 'queries/addIntegration.query';
 
 
 class AddIntegration extends React.Component{
@@ -28,15 +30,29 @@ class AddIntegration extends React.Component{
     this.displayIntegrationTooling = this.displayIntegrationTooling.bind(this);
     this.handleEndpointSelection = this.handleEndpointSelection.bind(this);
     this.handleMappingSelection = this.handleMappingSelection.bind(this);
+    this.handleSubmitIntegration = this.handleSubmitIntegration.bind(this);
   }//end constructor
 
   render (){
+    console.log('RENDER', this.props);
+
+    /*<Mutation mutation={this.props.AddIntegrationMutation}>
+              {(addIntegration, {data}) => {
+                return <button onClick={()=>this.handleSubmitIntegration(addIntegration)} className={css(GlobalStyles.button, IntegrationStyles.save_btn)}>Save Integration</button>;
+              }}
+            </Mutation>*/
 
     return (
       <div className={css(GlobalStyles.column, IntegrationStyles.integration_area)}>
         <div className={css(GlobalStyles.block, IntegrationStyles.integration_header_area)}>
           <h1 className={css(GlobalStyles.h1)}>New Integration</h1>
           <hr className={css(GlobalStyles.hr)}/>
+        </div>
+        <div className={css(GlobalStyles.block)}>
+          <div className={css(IntegrationStyles.btn_area)}>
+            <button onClick={()=>this.handleSubmitIntegration()} className={css(GlobalStyles.button, IntegrationStyles.save_btn)}>Save Integration</button>
+            <button onClick={()=>this.props.history.push('/')} className={css(GlobalStyles.button, IntegrationStyles.cancel_btn)}>Cancel</button>
+          </div>
         </div>
         {this.displayIntegrationTooling()}
       </div>
@@ -78,8 +94,6 @@ class AddIntegration extends React.Component{
   }//end displayIntegrationTooling
 
   handleMappingSelection (pathname, side, mappingIndex){
-
-    console.log('HANDLE MAPPING SELECTION', pathname, side, mappingIndex);
     let nState = {...this.state};
     let obj = {};
     let currentMapping = nState.mIntegration.mappings[mappingIndex];
@@ -88,7 +102,6 @@ class AddIntegration extends React.Component{
 
     //check to make sure last mapping is completed
     if(!!lastMapping && !!lastMapping[`path${side === 'a' ? 'B' : 'A'}`] && !lastMapping[`path${side.toUpperCase()}`]){
-      console.log('last mapping exists');
       lastMapping[`path${side.toUpperCase()}`] = pathname;
       nState.mIntegration.mappings.splice((nState.mIntegration.mappings.length -1), 1, lastMapping);
     }
@@ -111,30 +124,31 @@ class AddIntegration extends React.Component{
         }
       }
     }
-    
+
     this.setState(nState);
   }//end handleMappingSelection
 
   handleEndpointSelection (endpointId, side) {
     let nState = {...this.state};
 
-    console.log('SELECT ENDPOINT:', this.state);
-
     nState.mIntegration[`endpoint${side.toUpperCase()}Id`] = endpointId;
     this.setState(nState);
   }//end handleEndpointSelection
   
-  handleSubmitIntegration (){
+  handleSubmitIntegration (mutation){
+    console.log('SUBMIT INTEGRATION', this.props);
     this.props.AddIntegrationMutation({
-      variables: this.state.mIntegration
+      variables:{
+        integration: JSON.stringify(this.state.mIntegration)
+      }
     });
 
-    // should redirect to home?
+    this.props.history.push('/');
   }//end handleSubmitIntegration
 }
 
 export default compose(
   graphql(GetEndpoint, {name:"GetEndpointQuery"}),
   graphql(GetEndpoints, {name: 'GetEndpointsQuery'}),
-  // graphql(NewIntegration, {name:"AddIntegrationMutation"})
+  graphql(NewIntegration, {name:"AddIntegrationMutation"})
 )(AddIntegration);

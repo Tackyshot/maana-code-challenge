@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('fs');
-const {GraphQLSchema, GraphQLObjectType, GraphQLID, GraphQLList} = require('graphql');
+const {GraphQLSchema, GraphQLString, GraphQLObjectType, GraphQLID, GraphQLList} = require('graphql');
 const _ = require('lodash');
 
 //import queries
@@ -14,55 +14,77 @@ const mutations = {};
 const EndpointType = require('./types/endpoint.type');
 const IntegrationType = require('./types/integration.type');
 const stub = require('./stubs/stub');
+const stub2 = require('./stubs/stub2');
 
 //todo remove this, replace with mongoDB
-const mEndpoints = [{
-  id: 1,
-  hostname: 'https://somebasichost.com',
-  api: {
-    requestMethod: 'get',
-    pathParts: [
-      {
-        name: 'api',
-        isVariable: false,
-        isRequired: true
-      },
-      {
-        name: 'getResource',
-        isVariable: false,
-        isRequired: true
-      },
-      {
-        name: '{id}',
-        isVariable: true,
-        isRequired: false
-      }
-    ],
-    queryParams:[
-      {
-        name: 'filter',
-        param: ['someFilterValue']
-      }
-    ],
-    headers: [
-      {
-        headerName: 'Authorization',
-        headerValue: 'Bearer fakeJwtToken'
-      }
-    ],
-    responseBodyObj: JSON.stringify(stub)
+const mEndpoints = [
+  {
+    id: 1,
+    hostname: 'https://somebasichost.com',
+    api: {
+      requestMethod: 'get',
+      pathParts: [
+        {
+          name: 'api',
+          isVariable: false,
+          isRequired: true
+        },
+        {
+          name: 'getResource',
+          isVariable: false,
+          isRequired: true
+        },
+        {
+          name: '{id}',
+          isVariable: true,
+          isRequired: false
+        }
+      ],
+      queryParams:[
+        {
+          name: 'filter',
+          param: ['someFilterValue']
+        }
+      ],
+      headers: [
+        {
+          headerName: 'Authorization',
+          headerValue: 'Bearer fakeJwtToken'
+        }
+      ],
+      responseBodyObj: JSON.stringify(stub)
+    }
+  },
+  {
+    id: 2,
+    hostname: 'https://anotherHostname.com',
+    api: {
+      requestMethod: 'post',
+      pathParts: [
+        {
+          name: 'api',
+          isVariable: false,
+          isRequired: true
+        },
+        {
+          name: 'customStore',
+          isVariable: false,
+          isRequired: true
+        }
+      ],
+      queryParams:[],
+      headers: [
+        {
+          headerName: 'Authorization',
+          headerValue: 'Bearer fakeJwtToken'
+        }
+      ],
+      requestBodyObj: JSON.stringify(stub2),
+    }
   }
-}];
+];
 
-const mIntegrations = [{
-  id: 1,
-  endpointAId: 1,
-  endpointBId: 2,
-  mappings: [{
-    pathA: 'responseBody.data.array.name.firstname',
-    pathB: 'requestBody.data.array.name.firstname',
-  }]
-}];
+const mIntegrations = [];
 
 
 class SchemaFactory {
@@ -85,7 +107,7 @@ class SchemaFactory {
   buildSchema (){
     return new GraphQLSchema({
       query: this.buildQueries(this.queryFiles),
-      // mutation: this.buildMutations(this.mutationFiles)
+      mutation: this.buildMutations(this.mutationFiles)
     });
   }//end buildSchema
   
@@ -97,7 +119,7 @@ class SchemaFactory {
         getEndpoints: {
           type: new GraphQLList(EndpointType),
           resolve: (parent, args) => {
-            console.log('mENDPOINTS TO RETURN:', mEndpoints);
+            console.log('mENDPOINTS TO RETURN:');
 
             return mEndpoints;
           }
@@ -111,8 +133,8 @@ class SchemaFactory {
                 return a.id == args.id;
             });
 
-            console.log('FIND BY ID:', args.id);
-            console.log(endpoint);
+            console.log('FIND Endpoint BY ID:', args.id);
+            // console.log(endpoint);
 
             return endpoint
           }
@@ -132,7 +154,7 @@ class SchemaFactory {
               });
               
               console.log('FIND INTEGRATION BY ID:', args.id);
-              console.log(inegration);
+              // console.log(integration);
 
               return integration;
           }
@@ -157,8 +179,22 @@ class SchemaFactory {
         },
         addIntegration: {
           type: IntegrationType,
+          args: {
+            integration: {type: GraphQLString}
+          },
           resolve: (parent, args) => {
-              
+            console.log('ADD INTEGRATION!');
+
+            let integration = JSON.parse(args.integration);
+            let id = (mIntegrations.length + 1);
+            let nIntegration = {
+              ...{id: id},
+              ...integration
+            };
+
+            mIntegrations.push(nIntegration);
+
+            return nIntegration;
           }
         }
       }

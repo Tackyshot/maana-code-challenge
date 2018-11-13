@@ -19,15 +19,15 @@ export default class RequestBody extends React.Component{
     let contentInfo = this.buildContentInfo(key, value);
     let mappingIndex = this.props.mappingIndex;
 
-    //todo: add below features
-      // - indentation / proper spacing for children
-      //replace keyname values
-      //disable/enable selectability based on type
 
     return (
       <li
-        className={css(GlobalStyles.li, IntegrationStyles[contentInfo.isSelectable ? "jsonVisualizer_list_item" : null])}
-        onClick={this.handleMappingSelection}
+        className={css(
+          GlobalStyles.li,
+          IntegrationStyles[contentInfo.isSelectable ? "jsonVisualizer_list_item" : null],
+          IntegrationStyles[mappingIndex > -1 ? 'list_item_selected' : 'list_item_unselected']
+        )}
+        onClick={()=>this.handleMappingSelection(contentInfo.isSelectable)}
       >
         <span>{this.displayIntentation(pathArr)}</span>
         <span>{contentInfo.content}</span>
@@ -74,7 +74,8 @@ export default class RequestBody extends React.Component{
     );
   }//end displayIntentation
 
-  handleMappingSelection (e){
-    this.props.handleMappingSelection(this.props.item.pathname, this.props.intSide, this.props.mappingIndex);
+  handleMappingSelection (isSelectable){
+
+    if(isSelectable) this.props.handleMappingSelection(this.props.item.pathname, this.props.intSide, this.props.mappingIndex);
   }//end handleMappingSelection
 }

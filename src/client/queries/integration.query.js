@@ -1,12 +1,15 @@
 import {gql} from 'apollo-boost';
 
 const Integration = gql`
-query getIntegration($id: ID!){
-  getIntegration($id: ID!) {
+{
+  getIntegration(id: $id) {
     id
     endpointAId
     endpointBId
-    mappings
+    mappings {
+      pathA
+      pathB
+    }
   }
 }`;
 

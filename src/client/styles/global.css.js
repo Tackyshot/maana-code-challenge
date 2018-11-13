@@ -3,7 +3,6 @@ import {StyleSheet} from 'aphrodite';
 export default StyleSheet.create({
   appContent:{
     width: '100%',
-    margin: '10px 20px'
   },
   h1:{
 
@@ -32,7 +31,13 @@ export default StyleSheet.create({
     }
   },
   button: {
-
+    width: '80px',
+    height: '50px',
+    fontSize: '14px',
+    borderRadius: '5px',
+    padding: '0px',
+    color: 'white',
+    margin: '10px',
   },
   block:{
     display: 'block'

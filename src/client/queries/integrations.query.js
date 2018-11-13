@@ -1,7 +1,7 @@
 import {gql} from 'apollo-boost';
 
 const Integrations = gql`
-query getIntegrations{
+{
   getIntegrations {
     id
     endpointAId

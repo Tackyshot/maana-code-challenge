@@ -10,9 +10,6 @@ export default class JsonVisualizer extends React.Component{
   constructor (props){
     super(props);
 
-    //placeholder until more functionality
-    let side = this.props.integrationSide;
-
   }//end constructor
 
   render (){
@@ -47,8 +44,6 @@ export default class JsonVisualizer extends React.Component{
   }//end render
 
   findRelevantMapping (item){
-
-    console.log('find relevant mapping:', this.props);
     let mappings = this.props.integration.mappings;
 
     return mappings.findIndex((mapping, i) => {

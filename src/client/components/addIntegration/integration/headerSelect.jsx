@@ -6,9 +6,6 @@ import IntegrationStyles from 'styles/addIntegration.css';
 export default class HeaderSelect extends React.Component{
   constructor (props){
     super(props);
-
-    //placeholder until more functionality
-    let side = this.props.integrationSide
   }//end constructor
 
   render (){

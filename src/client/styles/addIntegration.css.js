@@ -7,16 +7,28 @@ export default StyleSheet.create({
   integration_header_area: {
 
   },
+  btn_area: {
+    padding: '20px',
+    justifyContent: 'flex-end'
+  },
+  save_btn:{
+    backgroundColor: 'green',
+    width: '120px',
+  },
+  cancel_btn:{
+    backgroundColor: 'orange'
+  },
   integration_content_area:{
     justifyContent: 'space-between',
     padding: '0px 10px',
     height: '100%'
   },
   side_a:{
-    borderRight: '1px solid lightgrey'
+    borderRight: '1px solid darkgrey',
+    paddingRight: '20px'
   },
   side_b:{
-
+    paddingLeft: '20px'
   },
   integration_window:{
     width: '50%',
@@ -79,15 +91,22 @@ export default StyleSheet.create({
   jsonVisualizer_list:{
     padding: '10px',
     border: '1px solid lightgrey',
-    margin: '10px',
-    cursor: 'pointer',
+    // margin: '10px',
   },
   jsonVisualizer_list_item:{
     [':hover']:{
-      backgroundColor: 'lightgrey'
+      backgroundColor: 'lightgrey',
+      cursor: 'pointer'
     }
   },
+  list_item_selected:{
+    backgroundColor: 'lightblue'
+  },
+  list_item_unselected:{},
   mapping_indicator:{
-    color: 'red'
+    color: 'red',
+    flexGrow: '2',
+    textAlign: 'right',
+    paddingRight: '10px'
   }
 });

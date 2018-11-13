@@ -2,7 +2,8 @@ import {StyleSheet} from 'aphrodite';
 
 export default StyleSheet.create({
   home_page:{
-    width: '100%'
+    width: '100%',
+    padding: '20px'
   },
   home_header:{
 
@@ -34,5 +35,21 @@ export default StyleSheet.create({
   },
   add_integration_btn: {
     backgroundColor: '#00a5ee'
+  },
+  mapping_ul:{
+    width: '100%'
+  },
+  mapping_li:{
+
+  },
+  mapping_li_pathA: {
+    flexGrow: 1
+  },
+  mapping_li_arrow: {
+    flexGrow: 2,
+    textAlign: 'center'
+  },
+  mapping_li_pathB: {
+    flexGrow: 1
   }
 });

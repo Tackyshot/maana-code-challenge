@@ -7,17 +7,12 @@ import IntegrationStyles from 'styles/addIntegration.css';
 export default class EndpointSelect extends React.Component{
   constructor (props){
     super(props);
-
-    //placeholder until more functionality
-    let side = this.props.integrationSide
   }//end constructor
 
   render (){
     let intSide = this.props.intSide;
     let integration = this.props.integration;
     let selectedEndpoint = this.props.selectedEndpoint;
-
-    console.log('ENDPOINT SElect PROPS:', this.props);
 
     return (
       <div className={css(GlobalStyles.column, IntegrationStyles.endpoint_select_area)}>

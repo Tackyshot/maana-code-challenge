@@ -26,11 +26,11 @@ export default class Home extends React.Component{
                 <h2 className={css(GlobalStyles.h2, HomeStyles.subsection_header)}>Endpoints</h2>
               </div>
               <div className={css(HomeStyles.subsection_button_area)}>
-                <Link
+                {/*<Link
                   to={`/addEndpoint`}
                   className={css(GlobalStyles.link_btn, HomeStyles.add_endpoint_btn)}
                 >+ Add
-                </Link>
+                </Link>*/}
               </div>
             </div>
 
