@@ -1,23 +1,29 @@
 import {gql} from 'apollo-boost';
 
-export const Endpoints = gql`
-  {
-    endpoints {
-      hostname
-      api {
-        pathParts{
-          name
-          isRequired
-          isVariable
-        }
-        queryParams{
-          name
-          param
-        }
-        requestMethod
-        requestBodyObj
-        responseBodyObj
+const Endpoints = gql`
+{
+  getEndpoints {
+    id
+    hostname
+    api {
+      pathParts{
+        name
+        isRequired
+        isVariable
       }
+      queryParams{
+        name
+        param
+      }
+      headers{
+        headerName
+        headerValue
+      }
+      requestMethod
+      requestBodyObj
+      responseBodyObj
     }
   }
-`;
+}`;
+
+export default Endpoints;

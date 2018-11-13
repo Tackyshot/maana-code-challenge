@@ -11,6 +11,7 @@ let webpackConfig = {
   mode:"development",
   resolve:{
     alias: {
+      'styles': `${__dirname}/src/client/styles/`,
       'helpers': `${__dirname}/src/client/helpers/`,
       'queries': `${__dirname}/src/client/queries/`
     },

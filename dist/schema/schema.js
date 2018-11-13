@@ -12,6 +12,8 @@ const mutations = {};
 
 //import types
 const EndpointType = require('./types/endpoint.type');
+const IntegrationType = require('./types/integration.type');
+const stub = require('./stubs/stub');
 
 //todo remove this, replace with mongoDB
 const mEndpoints = [{
@@ -48,10 +50,18 @@ const mEndpoints = [{
         headerValue: 'Bearer fakeJwtToken'
       }
     ],
-    responseBodyObj: JSON.stringify({
-      "someResponseKey": "Some Resource String"
-    })
+    responseBodyObj: JSON.stringify(stub)
   }
+}];
+
+const mIntegrations = [{
+  id: 1,
+  endpointAId: 1,
+  endpointBId: 2,
+  mappings: [{
+    pathA: 'responseBody.data.array.name.firstname',
+    pathB: 'requestBody.data.array.name.firstname',
+  }]
 }];
 
 
@@ -87,7 +97,9 @@ class SchemaFactory {
         getEndpoints: {
           type: new GraphQLList(EndpointType),
           resolve: (parent, args) => {
-              return mEndpoints;
+            console.log('mENDPOINTS TO RETURN:', mEndpoints);
+
+            return mEndpoints;
           }
         },
         getEndpoint: {
@@ -104,6 +116,26 @@ class SchemaFactory {
 
             return endpoint
           }
+        },
+        getIntegrations:{
+          type: new GraphQLList(IntegrationType),
+          resolve: () => {
+              return mIntegrations;
+          }
+        },
+        getIntegration:{
+          type: IntegrationType,
+          args: {id: {type: GraphQLID}},
+          resolve: (parent, args) => {
+              let integration = mIntegrations.find((a) => {
+                  return a.id == args.id;
+              });
+              
+              console.log('FIND INTEGRATION BY ID:', args.id);
+              console.log(inegration);
+
+              return integration;
+          }
         }
       }
     });
@@ -116,24 +148,22 @@ class SchemaFactory {
 
     return new GraphQLObjectType({
       name: 'Mutations',
-      fields: fields
+      fields: {
+        addEndpoint: {
+          type: EndpointType,
+          resolve: (parent, args) => {
+
+          }
+        },
+        addIntegration: {
+          type: IntegrationType,
+          resolve: (parent, args) => {
+              
+          }
+        }
+      }
     });
   }//end buildMutations
   
-  // buildFields (dirPath, files){
-  //   const fields = {};
-  //
-  //   console.log('BUILD FIELDS FILES:', dirPath, files);
-  //
-  //   for (let i = 0; i < files.length; i++){
-  //     let {fieldName, fieldContent} = require(`${dirPath}/${files[i]}`);
-  //
-  //     if(fieldName) console.log('ERROR CHECK', typeof fieldContent);
-  //
-  //     fields[fieldName.toLowerCase()] = fieldContent;
-  //   }
-  //
-  //   return fields;
-  // }//end buildFields
 }
 module.exports = SchemaFactory;

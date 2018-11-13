@@ -1,4 +1,7 @@
 import * as React from 'react';
+import {css} from 'aphrodite';
+import GlobalStyles from 'styles/global.css';
+import IntegrationStyles from 'styles/addIntegration.css';
 
 export default class QueryParamsSelect extends React.Component{
   constructor (props){
@@ -9,25 +12,29 @@ export default class QueryParamsSelect extends React.Component{
   }//end constructor
 
   render (){
+    let selectedEndpoint = this.props.selectedEndpoint;
+
     return (
-      <div className={'queryParamsSelect_area'}>
-        <div>
+      <div className={css(GlobalStyles.column, IntegrationStyles.queryParamsSelect_area)}>
+        <div className={css(GlobalStyles.block)}>
           <h2>Query Parameters</h2>
         </div>
-        <ul className={'queryParamsSelect_list'}>
-          {this.props.endpoint.api.queryParams.map((queryParam, i) => {
-            let path = `api.queryParams[${i}]`;
+        <div className={css(GlobalStyles.block)}>
+          <ul className={css(GlobalStyles.ul, IntegrationStyles.queryParamsSelect_list)}>
+            {selectedEndpoint.api.queryParams.map((queryParam, i) => {
+              let path = `api.queryParams[${i}]`;
 
-            return (
-              <li className={'queryParamsSelect_list_item'}
-                  key={`queryParam-${queryParam.name}`}
-                  onClick={(e)=> e.preventDefault()}
-              >
-                ?<span>{queryParam.name}</span> = <span>{queryParam.param}</span>
-              </li>
-            )
-          })}
-        </ul>
+              return (
+                <li className={'queryParamsSelect_list_item'}
+                    key={`queryParam-${queryParam.name}`}
+                    onClick={(e)=> e.preventDefault()}
+                >
+                  ?<span>{queryParam.name}</span> = <span>{queryParam.param}</span>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     )
   }//end render

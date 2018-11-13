@@ -41,6 +41,30 @@ app.route('/js/:filename')
 
   });
 
+app.route('/css/:filename')
+  .get((req, res, next) => {
+    let filename = req.params.filename;
+    let options = {
+      root: __dirname + '/assets/css/',
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    };
+
+    res.sendFile(filename, options, (err) => {
+      if (err){
+        console.error(err);
+        next(err);
+      } else {
+        console.log('Sent:', filename);
+      }
+    });
+
+  });
+
+
 //return index.html file for anything other than defined routes above
 app.route('*')
   .get((req, res, next) => {

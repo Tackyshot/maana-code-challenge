@@ -13,6 +13,7 @@ const mutations = {};
 //import types
 const EndpointType = require('./types/endpoint.type');
 const IntegrationType = require('./types/integration.type');
+const stub = require('./stubs/stub');
 
 //todo remove this, replace with mongoDB
 const mEndpoints = [{
@@ -49,9 +50,7 @@ const mEndpoints = [{
         headerValue: 'Bearer fakeJwtToken'
       }
     ],
-    responseBodyObj: JSON.stringify({
-      "someResponseKey": "Some Resource String"
-    })
+    responseBodyObj: JSON.stringify(stub)
   }
 }];
 
@@ -98,7 +97,9 @@ class SchemaFactory {
         getEndpoints: {
           type: new GraphQLList(EndpointType),
           resolve: (parent, args) => {
-              return mEndpoints;
+            console.log('mENDPOINTS TO RETURN:', mEndpoints);
+
+            return mEndpoints;
           }
         },
         getEndpoint: {

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import {FlattenObject} from "helpers/helpers";
+import {css} from 'aphrodite';
+import GlobalStyles from 'styles/global.css';
+import IntegrationStyles from 'styles/addIntegration.css';
 
 import BodyItem from './bodyItem';
 
@@ -12,23 +15,45 @@ export default class JsonVisualizer extends React.Component{
 
   }//end constructor
 
-  async render (){
-    let body = await FlattenObject.flatten(this.props.body, this.props.contentSource);
+  render (){
+    let body = !!this.props.body ? FlattenObject.flatten(this.props.body, this.props.contentSource) : [];
     
-    console.log(body);
-
     return (
-      <div className={'jsonVisualizer_area'}>
-        <div>
+      <div className={css(GlobalStyles.column, IntegrationStyles.jsonVisualizer_area)}>
+        <div className={css(GlobalStyles.block)}>
           <h2>{this.props.contentSource} Object</h2>
         </div>
-        <ul className={'jsonVisualizer'}>
-          {body.map((item, i) => {
-            return <BodyItem item={item} handleMappingSelection={this.props.handleMappingSelection} />
-          })}
-        </ul>
+        <div className={css(GlobalStyles.block)}>
+          <ul className={css(GlobalStyles.ul, IntegrationStyles.jsonVisualizer_list)}>
+            <li className={css(GlobalStyles.li)}>{'{'}</li>
+            {body.map((item, i) => {
+              let mappingIndex = this.findRelevantMapping(item);
+
+              return (
+                <BodyItem
+                  key={`BodyItem-${i}`}
+                  intSide={this.props.intSide}
+                  item={item}
+                  mappingIndex={mappingIndex}
+                  handleMappingSelection={this.props.handleMappingSelection}
+                />
+              )
+            })}
+            <li className={css(GlobalStyles.li)}>{'}'}</li>
+          </ul>
+        </div>
       </div>
     )
   }//end render
 
+  findRelevantMapping (item){
+
+    console.log('find relevant mapping:', this.props);
+    let mappings = this.props.integration.mappings;
+
+    return mappings.findIndex((mapping, i) => {
+      return mapping[`path${this.props.intSide.toUpperCase()}`] === item.pathname;
+    });
+
+  }//end findRelevantMapping
 }

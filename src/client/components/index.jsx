@@ -2,6 +2,9 @@ import * as React from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
+import {css} from 'aphrodite';
+
+import GlobalStyles from 'styles/global.css';
 
 import Home from './home/home';
 import AddEndpoint from "./addEndpoint/addEndpoint";
@@ -20,7 +23,7 @@ export default class IndexComponent extends React.Component {
     return (
       <Router>
         <ApolloProvider client={client} >
-          <div>
+          <div className={css(GlobalStyles.appContent)}>
             <Route path="/" exact component={Home} />
             <Route path="/addEndpoint" component={AddEndpoint}/>
             <Route path={"/addIntegration"} component={AddIntegration} />

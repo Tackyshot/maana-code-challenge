@@ -18,8 +18,7 @@ module.exports = new GraphQLObjectType({
     },
     headers: {
       type: new GraphQLList(headerType)
-    }
-    ,
+    },
     requestBodyObj: {type: GraphQLString}, //strigified JSON object
     responseBodyObj: {type: GraphQLString}//strigified JSON object
   })

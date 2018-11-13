@@ -1,9 +1,9 @@
-const {GraphQLInterfaceType, GraphQLString, GraphQLBoolean} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLBoolean} = require('graphql');
 
 const typeName = 'headerType';
 
 module.exports.typeName =  typeName;
-module.exports = new GraphQLInterfaceType({
+module.exports = new GraphQLObjectType({
   name: typeName,
   fields: () => ({
     headerName: {type: GraphQLString},

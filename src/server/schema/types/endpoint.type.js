@@ -10,7 +10,10 @@ module.exports.typeName =  typeName;
 module.exports = new GraphQLObjectType({
   name: typeName,
   fields: () => ({
-    id: {type: GraphQLID},
+    id: {
+      type: GraphQLID,
+      resolve: (parent)=> parent['id']
+    },
     hostname: {type: GraphQLString},
     api: {type: apiType}
   })
